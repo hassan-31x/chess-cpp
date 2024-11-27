@@ -110,7 +110,7 @@ class Board {
                 return false;
             }
 
-            if (squares[r2][c2]->getIsWhite() == squares[r1][c1]->getIsWhite()) {
+            if (squares[r1][c1]->getIsWhite() == squares[r2][c2]->getIsWhite()) {
                 return false;
             }
 

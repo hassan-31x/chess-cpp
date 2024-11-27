@@ -9,7 +9,7 @@ private:
     Player blackPlayer;
     bool isWhiteTurn;
     bool gameStarted;
-    bool moveMade;
+    bool firstMoveMade;
     std::pair<int, int> sqClicked;
 
     sf::RenderWindow window;
@@ -20,7 +20,7 @@ private:
     sf::Sprite backgroundSprite;  
 
 public:
-    Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), moveMade(false) {
+    Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), firstMoveMade(false) {
         initializeWindow();
     }
 
@@ -50,32 +50,36 @@ private:
                     int col = event.mouseButton.x / Board::SQUARE_SIZE;
                     int row = event.mouseButton.y / Board::SQUARE_SIZE;
 
-                    cout << "Clicked square: " << row << " " << col << endl;
+                    cout << "Clicked square: (" << row << ", " << col << ")" << endl;
 
                     //if click on same square
                     if (row == sqClicked.first && col == sqClicked.second) {
                         sqClicked = std::make_pair(-1, -1);
-                        moveMade = false;
+                        firstMoveMade = false;
                         continue;
                     }
 
                     //if one click is already done
-                    if (moveMade) {
+                    if (firstMoveMade) {
                         //if first square clicked is empty
                         if (sqClicked.first==-1 || sqClicked.second==-1) {
-                            moveMade = false;
+                            firstMoveMade = false;
                             continue;
                         }
 
                         if (!board.movePiece(sqClicked.first, sqClicked.second, row, col)) {
+                            cout << "Invalid move" << endl;
+                            sqClicked = std::make_pair(-1, -1);
+                            firstMoveMade = false;
+                            
                             continue;
                         }
 
                         isWhiteTurn = !isWhiteTurn;
                         sqClicked = std::make_pair(-1, -1);
-                        moveMade = false;
+                        firstMoveMade = false;
                     } else {
-                        moveMade = true;
+                        firstMoveMade = true;
                         sqClicked = std::make_pair(row, col);
                     }
             }
