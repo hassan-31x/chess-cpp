@@ -27,13 +27,13 @@ class Board {
         
         void drawPieces(sf::RenderWindow &window) {
             for (int r = 0; r < BOARD_SIZE; r++) {
-                for (int c = 0; c < BOARD_SIZE; ++c) {
+                for (int c = 0; c < BOARD_SIZE; c++) {
                     Piece* piece = squares[r][c];
                     if (piece != nullptr) {
                         sf::Sprite sprite;
                         sprite.setTexture(images.at(piece->getName()));
-                        sprite.setScale(1.8f, 1.8f);
-                        sprite.setPosition(c * SQUARE_SIZE, r * SQUARE_SIZE);
+                        sprite.setScale(1.3f, 1.3f);
+                        sprite.setPosition(c * SQUARE_SIZE + 10, r * SQUARE_SIZE + 10);
                         window.draw(sprite);
                     }
                 }
@@ -42,7 +42,7 @@ class Board {
 
     public:
         static const int BOARD_SIZE = 8;
-        static const int SQUARE_SIZE = 120;
+        static const int SQUARE_SIZE = 100;
 
         Board() {
             loadImages();
