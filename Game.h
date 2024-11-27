@@ -40,15 +40,13 @@ private:
                 window.close();
             }
 
-            if (!gameStarted && event.type == sf::Event::MouseButtonPressed && 
-                event.mouseButton.button == sf::Mouse::Left) {
+            if (!gameStarted && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 if (startButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                     gameStarted = true;
                 }
             }
 
-            if (gameStarted && event.type == sf::Event::MouseButtonPressed && 
-                event.mouseButton.button == sf::Mouse::Left) {
+            if (gameStarted && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                     int col = event.mouseButton.x / Board::SQUARE_SIZE;
                     int row = event.mouseButton.y / Board::SQUARE_SIZE;
 
@@ -56,6 +54,9 @@ private:
 
                     if (moveMade) {
                         board.movePiece(sqClicked.first, sqClicked.second, row, col);
+
+                        isWhiteTurn = !isWhiteTurn;
+                        sqClicked = std::make_pair(-1, -1);
                         moveMade = false;
                     } else {
                         moveMade = true;
