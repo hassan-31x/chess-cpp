@@ -108,6 +108,7 @@ class Board {
         bool movePiece(int r1, int c1, int r2, int c2, bool isWhiteTurn) {
             cout << "movePiece: (" << r1 << ", " << c1 << ") -> (" << r2 << ", " << c2 << ")" << endl;
 
+            cout << "logging squares" << endl;
             cout << "First square: " << squares[r1][c1]->getName() << endl;
             cout << "Second square: " << squares[r2][c2]->getName() << endl;
             // if (squares[r1][c1]->getName() == "--") {
