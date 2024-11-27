@@ -70,7 +70,9 @@ private:
                         //     continue;
                         // }
 
-                        if (!board.movePiece(sqClicked.first, sqClicked.second, row, col)) {
+                        bool moveMade = board.movePiece(sqClicked.first, sqClicked.second, row, col);
+                        cout << "Move made: " << moveMade << endl;
+                        if (!moveMade) {
                             cout << "Invalid move" << endl;
                             sqClicked = std::make_pair(-1, -1);
                             firstMoveMade = false;
