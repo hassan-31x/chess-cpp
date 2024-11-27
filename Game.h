@@ -9,6 +9,9 @@ private:
     Player blackPlayer;
     bool isWhiteTurn;
     bool gameStarted;
+    bool moveMade;
+    std::pair<int, int> sqClicked;
+
     sf::RenderWindow window;
     sf::Font font;
     sf::Text startButton;
@@ -17,7 +20,7 @@ private:
     sf::Sprite backgroundSprite;  
 
 public:
-    Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false) {
+    Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), moveMade(false) {
         initializeWindow();
     }
 
@@ -51,7 +54,13 @@ private:
 
                     cout << "Clicked square: " << row << " " << col << endl;
 
-                    //movemnt
+                    if (moveMade) {
+                        board.movePiece(sqClicked.first, sqClicked.second, row, col);
+                        moveMade = false;
+                    } else {
+                        moveMade = true;
+                        sqClicked = std::make_pair(row, col);
+                    }
             }
         }
     }

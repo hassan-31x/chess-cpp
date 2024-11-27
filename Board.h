@@ -11,77 +11,7 @@ class Board {
     private:
         Piece* squares[8][8];
         std::map<std::string, sf::Texture> images;
-    public:
-        static const int BOARD_SIZE = 8;
-        static const int SQUARE_SIZE = 120;
 
-        Board() {
-            loadImages();
-            
-            // Initialize squares array with starting chess positions
-            for(int i = 0; i < BOARD_SIZE; i++) {
-            for(int j = 0; j < BOARD_SIZE; j++) {
-                squares[i][j] = nullptr;
-            }
-        }
-
-        // Initialize back rows (black pieces)
-        squares[0][0] = new Rook(false);
-        squares[0][1] = new Knight(false);
-        squares[0][2] = new Bishop(false);
-        squares[0][3] = new Queen(false);
-        squares[0][4] = new King(false);
-        squares[0][5] = new Bishop(false);
-        squares[0][6] = new Knight(false);
-        squares[0][7] = new Rook(false);
-
-        // Initialize black pawns
-        for(int j = 0; j < BOARD_SIZE; j++) {
-            squares[1][j] = new Pawn(false);
-        }
-
-        // Initialize white pawns
-        for(int j = 0; j < BOARD_SIZE; j++) {
-            squares[6][j] = new Pawn(true);
-        }
-
-        // Initialize back rows (white pieces)
-        squares[7][0] = new Rook(true);
-        squares[7][1] = new Knight(true);
-        squares[7][2] = new Bishop(true);
-        squares[7][3] = new Queen(true);
-        squares[7][4] = new King(true);
-        squares[7][5] = new Bishop(true);
-        squares[7][6] = new Knight(true);
-        squares[7][7] = new Rook(true);
-        }
-        
-        ~Board() {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                for (int j = 0; j < BOARD_SIZE; j++) {
-                    delete squares[i][j];
-                }
-            }
-        }
-
-        void draw(sf::RenderWindow& window) {
-            drawBoard(window);
-            drawPieces(window);
-        }
-
-        void loadImages() {
-            std::vector<std::string> pieces = {"wp", "wR", "wN", "wB", "wQ", "wK", 
-                                            "bp", "bR", "bN", "bB", "bQ", "bK"};
-
-            for (const auto &piece: pieces) {
-                sf::Texture temp;
-                if (temp.loadFromFile("images/" + piece + ".png")) {
-                    images[piece] = temp;
-                }
-            }
-        }
-
-    private:
         void drawBoard(sf::RenderWindow& window) {
             sf::RectangleShape square(sf::Vector2f(SQUARE_SIZE, SQUARE_SIZE));
             std::vector<sf::Color> colors = {sf::Color::White, sf::Color(192, 192, 192)};
@@ -109,4 +39,76 @@ class Board {
                 }
             }
         }
+
+    public:
+        static const int BOARD_SIZE = 8;
+        static const int SQUARE_SIZE = 120;
+
+        Board() {
+            loadImages();
+            
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    squares[i][j] = nullptr;
+                }
+            }
+
+            squares[0][0] = new Rook(false);
+            squares[0][1] = new Knight(false);
+            squares[0][2] = new Bishop(false);
+            squares[0][3] = new Queen(false);
+            squares[0][4] = new King(false);
+            squares[0][5] = new Bishop(false);
+            squares[0][6] = new Knight(false);
+            squares[0][7] = new Rook(false);
+
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                squares[1][j] = new Pawn(false);
+            }
+
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                squares[6][j] = new Pawn(true);
+            }
+
+            squares[7][0] = new Rook(true);
+            squares[7][1] = new Knight(true);
+            squares[7][2] = new Bishop(true);
+            squares[7][3] = new Queen(true);
+            squares[7][4] = new King(true);
+            squares[7][5] = new Bishop(true);
+            squares[7][6] = new Knight(true);
+            squares[7][7] = new Rook(true);
+        }
+        
+        ~Board() {
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    delete squares[i][j];
+                }
+            }
+        }
+
+        void draw(sf::RenderWindow& window) {
+            drawBoard(window);
+            drawPieces(window);
+        }
+
+        void loadImages() {
+            std::vector<std::string> pieces = {"wp", "wR", "wN", "wB", "wQ", "wK", 
+                                            "bp", "bR", "bN", "bB", "bQ", "bK"};
+
+            for (const auto &piece: pieces) {
+                sf::Texture temp;
+                if (temp.loadFromFile("images/" + piece + ".png")) {
+                    images[piece] = temp;
+                }
+            }
+        }
+
+        void movePiece(int r1, int c1, int r2, int c2) {
+            Piece* temp = squares[r1][c1];
+            squares[r1][c1] = squares[r2][c2];
+            squares[r2][c2] = temp;
+        }
+
 };
