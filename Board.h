@@ -107,20 +107,24 @@ class Board {
 
         bool movePiece(int r1, int c1, int r2, int c2) {
             if (squares[r1][c1] == nullptr) {
+                cout << "invalid: First square is empty" << endl;
                 return false;
             }
 
             if (squares[r1][c1]->getIsWhite() == squares[r2][c2]->getIsWhite()) {
+                cout << "invalid: Same color" << endl;
                 return false;
             }
 
             if (squares[r2][c2] == nullptr) {
+                cout << "valid: Second square is empty" << endl;
                 Piece* temp = squares[r1][c1];
                 squares[r1][c1] = squares[r2][c2];
                 squares[r2][c2] = temp;
                 return true;
             }
 
+            cout << "valid: Second square is not empty" << endl;
             squares[r2][c2] = squares[r1][c1];
             squares[r1][c1] = nullptr;
             return true;

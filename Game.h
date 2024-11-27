@@ -54,6 +54,7 @@ private:
 
                     //if click on same square
                     if (row == sqClicked.first && col == sqClicked.second) {
+                        cout << "Same square" << endl;
                         sqClicked = std::make_pair(-1, -1);
                         firstMoveMade = false;
                         continue;
@@ -61,17 +62,19 @@ private:
 
                     //if one click is already done
                     if (firstMoveMade) {
+                        cout << "Second move" << endl;
                         //if first square clicked is empty
-                        if (sqClicked.first==-1 || sqClicked.second==-1) {
-                            firstMoveMade = false;
-                            continue;
-                        }
+
+                        // if (sqClicked.first==-1 || sqClicked.second==-1) {
+                        //     firstMoveMade = false;
+                        //     continue;
+                        // }
 
                         if (!board.movePiece(sqClicked.first, sqClicked.second, row, col)) {
                             cout << "Invalid move" << endl;
                             sqClicked = std::make_pair(-1, -1);
                             firstMoveMade = false;
-                            
+
                             continue;
                         }
 
@@ -79,6 +82,7 @@ private:
                         sqClicked = std::make_pair(-1, -1);
                         firstMoveMade = false;
                     } else {
+                        cout << "First move" << endl;
                         firstMoveMade = true;
                         sqClicked = std::make_pair(row, col);
                     }
