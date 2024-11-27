@@ -105,10 +105,25 @@ class Board {
             }
         }
 
-        void movePiece(int r1, int c1, int r2, int c2) {
-            Piece* temp = squares[r1][c1];
-            squares[r1][c1] = squares[r2][c2];
-            squares[r2][c2] = temp;
+        bool movePiece(int r1, int c1, int r2, int c2) {
+            if (squares[r1][c1] == nullptr) {
+                return false;
+            }
+
+            if (squares[r2][c2]->getIsWhite() == squares[r1][c1]->getIsWhite()) {
+                return false;
+            }
+
+            if (squares[r2][c2] == nullptr) {
+                Piece* temp = squares[r1][c1];
+                squares[r1][c1] = squares[r2][c2];
+                squares[r2][c2] = temp;
+                return true;
+            }
+
+            squares[r2][c2] = squares[r1][c1];
+            squares[r1][c1] = nullptr;
+            return true;
         }
 
 };

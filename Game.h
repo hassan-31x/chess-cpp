@@ -52,8 +52,24 @@ private:
 
                     cout << "Clicked square: " << row << " " << col << endl;
 
+                    //if click on same square
+                    if (row == sqClicked.first && col == sqClicked.second) {
+                        sqClicked = std::make_pair(-1, -1);
+                        moveMade = false;
+                        continue;
+                    }
+
+                    //if one click is already done
                     if (moveMade) {
-                        board.movePiece(sqClicked.first, sqClicked.second, row, col);
+                        //if first square clicked is empty
+                        if (sqClicked.first==-1 || sqClicked.second==-1) {
+                            moveMade = false;
+                            continue;
+                        }
+
+                        if (!board.movePiece(sqClicked.first, sqClicked.second, row, col)) {
+                            continue;
+                        }
 
                         isWhiteTurn = !isWhiteTurn;
                         sqClicked = std::make_pair(-1, -1);
