@@ -88,6 +88,10 @@ class Board {
             }
         }
 
+        Piece* (*getSquares())[8] {
+            return squares;
+        }
+
         void draw(sf::RenderWindow& window) {
             drawBoard(window);
             drawPieces(window);
@@ -105,10 +109,14 @@ class Board {
             }
         }
 
-        bool movePiece(int r1, int c1, int r2, int c2, bool isWhiteTurn) {
-            cout << "movePiece: (" << r1 << ", " << c1 << ") -> (" << r2 << ", " << c2 << ")" << endl;
+        bool validateMove(int r1, int c1, int r2, int c2, bool isWhiteTurn) {
+            cout << "validating move: (" << r1 << ", " << c1 << ") -> (" << r2 << ", " << c2 << ")" << endl;
 
-            cout << "logging squares" << endl;
+            if (r1 == r2 && c1 == c2) {
+                cout << "invalid: Same square" << endl;
+                return false;
+            }
+
             if (squares[r1][c1] == nullptr) {
                 cout << "invalid: First square is empty" << endl;
                 return false;
@@ -119,9 +127,16 @@ class Board {
                 return false;
             }
 
-
             if (getPiece(r2, c2) != nullptr && getPiece(r1, c1)->getIsWhite() == getPiece(r2, c2)->getIsWhite()) {
                 cout << "invalid: Same color" << endl;
+                return false;
+            }
+
+            return true;
+        }
+
+        bool movePiece(int r1, int c1, int r2, int c2, bool isWhiteTurn) {
+            if (!validateMove(r1, c1, r2, c2, isWhiteTurn)) {
                 return false;
             }
 

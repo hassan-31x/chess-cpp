@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Board.h"
 #include "Player.h"
+#include "Move.h"
 
 class Game {
 private:
@@ -18,6 +19,7 @@ private:
     
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;  
+    std::vector<Move> moveLog;
 
 public:
     Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), firstMoveMade(false) {
@@ -52,33 +54,24 @@ private:
 
                     cout << "Clicked square: (" << row << ", " << col << ")" << endl;
 
-                    //if click on same square
-                    if (row == sqClicked.first && col == sqClicked.second) {
-                        cout << "Same square" << endl;
-                        sqClicked = std::make_pair(-1, -1);
-                        firstMoveMade = false;
-                        continue;
-                    }
-
                     //if one click is already done
                     if (firstMoveMade) {
                         cout << "Second click" << endl;
-                        //if first square clicked is empty
 
-                        // if (sqClicked.first==-1 || sqClicked.second==-1) {
-                        //     firstMoveMade = false;
-                        //     continue;
-                        // }
+                        bool moveValid = board.movePiece(sqClicked.first, sqClicked.second, row, col, isWhiteTurn);
 
-                        bool moveMade = board.movePiece(sqClicked.first, sqClicked.second, row, col, isWhiteTurn);
-                        cout << "Move made: " << moveMade << endl;
-                        if (!moveMade) {
+                        if (!moveValid) {
                             cout << "Invalid move" << endl;
                             sqClicked = std::make_pair(-1, -1);
                             firstMoveMade = false;
 
                             continue;
                         }
+                        
+
+                        Move move(sqClicked, std::make_pair(row, col), board.getSquares());
+                        cout << "Move: " << move << endl;
+                        moveLog.push_back(move);
 
                         isWhiteTurn = !isWhiteTurn;
                         sqClicked = std::make_pair(-1, -1);
