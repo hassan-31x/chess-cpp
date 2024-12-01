@@ -109,56 +109,24 @@ class Board {
             }
         }
 
-        bool validateMove(int r1, int c1, int r2, int c2, bool isWhiteTurn) {
-            cout << "validating move: (" << r1 << ", " << c1 << ") -> (" << r2 << ", " << c2 << ")" << endl;
+        
 
-            if (r1 == r2 && c1 == c2) {
-                cout << "invalid: Same square" << endl;
-                return false;
+        bool movePiece(int r1, int c1, int r2, int c2, std::vector<std::pair<int, int>> validMoves) {
+            for (const auto& move : validMoves) {
+                if (move.first == r2 && move.second == c2) {
+                    squares[r1][c1] = nullptr;
+                    squares[r2][c2] = squares[r1][c1];
+                    return true;
+                }
             }
-
-            if (squares[r1][c1] == nullptr) {
-                cout << "invalid: First square is empty" << endl;
-                return false;
-            }
-
-            if (squares[r1][c1]->getIsWhite() != isWhiteTurn) {
-                cout << "invalid: Not your turn" << endl;
-                return false;
-            }
-
-            if (getPiece(r2, c2) != nullptr && getPiece(r1, c1)->getIsWhite() == getPiece(r2, c2)->getIsWhite()) {
-                cout << "invalid: Same color" << endl;
-                return false;
-            }
-
-            return true;
-        }
-
-        bool movePiece(int r1, int c1, int r2, int c2, bool isWhiteTurn) {
-            if (!validateMove(r1, c1, r2, c2, isWhiteTurn)) {
-                return false;
-            }
-
-            if (getPiece(r2, c2) == nullptr) {
-                cout << "valid: Second square is empty" << endl;
-                Piece* temp = getPiece(r1, c1);
-                squares[r1][c1] = squares[r2][c2];
-                squares[r2][c2] = temp;
-                return true;
-            }
-
-            cout << "valid: Second square is not empty" << endl;
-            squares[r2][c2] = squares[r1][c1];
-            squares[r1][c1] = nullptr;
-            return true;
+            return false;
         }
 
         Piece* getPiece(int r, int c) {
             return squares[r][c];
         }
 
-        void highlightSquare(int r, int c, bool isWhite) {
+        void highlightSquares(std::vector<std::pair<int, int>> moves, int r, int c, bool isWhite) {
             sf::RenderWindow tempWindow(sf::VideoMode(BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE), "Chess");
             sf::RectangleShape square(sf::Vector2f(SQUARE_SIZE, SQUARE_SIZE));
             std::vector<sf::Color> colors = {sf::Color::White, sf::Color(192, 192, 192)};
@@ -167,9 +135,20 @@ class Board {
                 for (int col = 0; col < BOARD_SIZE; ++col) {
                     square.setPosition(col * SQUARE_SIZE, row * SQUARE_SIZE);
                     if (row == r && col == c) {
-                        square.setFillColor(sf::Color::Yellow); // Highlight selected square
+                        square.setFillColor(sf::Color::Yellow);
                     } else {
-                        square.setFillColor(colors[(row + col) % 2]);
+                        bool isValidMove = false;
+                        for (const auto& move : moves) {
+                            if (move.first == row && move.second == col) {
+                                isValidMove = true;
+                                break;
+                            }
+                        }
+                        if (isValidMove) {
+                            square.setFillColor(sf::Color::Green); // Highlight possible moves
+                        } else {
+                            square.setFillColor(colors[(row + col) % 2]);
+                        }
                     }
                     tempWindow.draw(square);
                 }

@@ -20,9 +20,10 @@ private:
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;  
     std::vector<Move> moveLog;
+    std::vector<std::pair<int, int>> validMoves;
 
 public:
-    Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), firstMoveMade(false) {
+    Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), firstMoveMade(false), moveLog(), validMoves() {
         initializeWindow();
     }
 
@@ -53,12 +54,17 @@ private:
                     int row = event.mouseButton.y / Board::SQUARE_SIZE;
 
                     cout << "Clicked square: (" << row << ", " << col << ")" << endl;
+                    if (row == sqClicked.first && col == sqClicked.second) {
+                        sqClicked = std::make_pair(-1, -1);
+                        firstMoveMade = false;
+                        continue;
+                    }
 
                     //if one click is already done
                     if (firstMoveMade) {
                         cout << "Second click" << endl;
 
-                        bool moveValid = board.movePiece(sqClicked.first, sqClicked.second, row, col, isWhiteTurn);
+                        bool moveValid = board.movePiece(sqClicked.first, sqClicked.second, row, col, validMoves);
 
                         if (!moveValid) {
                             cout << "Invalid move" << endl;
@@ -84,7 +90,8 @@ private:
                         firstMoveMade = true;
                         sqClicked = std::make_pair(row, col);
 
-                        board.highlightSquare(row, col, isWhiteTurn);
+                        validMoves = board.getPiece(row, col)->getPossibleMoves(row, col, board.getSquares());
+                        board.highlightSquares(validMoves, row, col, isWhiteTurn);
                     }
             }
         }
