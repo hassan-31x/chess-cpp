@@ -25,7 +25,7 @@ class King: public Piece {
             setName(isWhite ? "wK" : "bK");
         }
         bool isValidMove(int startX, int startY, int endX, int endY) override {
-            return true;;
+            return true;
         }
 };
 
