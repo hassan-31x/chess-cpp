@@ -120,14 +120,14 @@ class Board {
             }
 
 
-            if (squares[r2][c2] != nullptr && squares[r1][c1]->getIsWhite() == squares[r2][c2]->getIsWhite()) {
+            if (getPiece(r2, c2) != nullptr && getPiece(r1, c1)->getIsWhite() == getPiece(r2, c2)->getIsWhite()) {
                 cout << "invalid: Same color" << endl;
                 return false;
             }
 
-            if (squares[r2][c2] == nullptr) {
+            if (getPiece(r2, c2) == nullptr) {
                 cout << "valid: Second square is empty" << endl;
-                Piece* temp = squares[r1][c1];
+                Piece* temp = getPiece(r1, c1);
                 squares[r1][c1] = squares[r2][c2];
                 squares[r2][c2] = temp;
                 return true;
@@ -137,6 +137,29 @@ class Board {
             squares[r2][c2] = squares[r1][c1];
             squares[r1][c1] = nullptr;
             return true;
+        }
+
+        Piece* getPiece(int r, int c) {
+            return squares[r][c];
+        }
+
+        void highlightSquare(int r, int c, bool isWhite) {
+            sf::RenderWindow tempWindow(sf::VideoMode(BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE), "Chess");
+            sf::RectangleShape square(sf::Vector2f(SQUARE_SIZE, SQUARE_SIZE));
+            std::vector<sf::Color> colors = {sf::Color::White, sf::Color(192, 192, 192)};
+
+            for (int row = 0; row < BOARD_SIZE; row++) {
+                for (int col = 0; col < BOARD_SIZE; ++col) {
+                    square.setPosition(col * SQUARE_SIZE, row * SQUARE_SIZE);
+                    if (row == r && col == c) {
+                        square.setFillColor(sf::Color::Yellow); // Highlight selected square
+                    } else {
+                        square.setFillColor(colors[(row + col) % 2]);
+                    }
+                    tempWindow.draw(square);
+                }
+            }
+            tempWindow.display();
         }
 
 };

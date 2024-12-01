@@ -84,9 +84,14 @@ private:
                         sqClicked = std::make_pair(-1, -1);
                         firstMoveMade = false;
                     } else {
+                        if (board.getPiece(row, col) == nullptr) {
+                            continue;
+                        }
                         cout << "First click" << endl;
                         firstMoveMade = true;
                         sqClicked = std::make_pair(row, col);
+
+                        board.highlightSquare(row, col, isWhiteTurn);
                     }
             }
         }
