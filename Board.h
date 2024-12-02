@@ -139,7 +139,7 @@ class Board {
             // std::vector<std::pair<int, int>> validMoves = squares[r1][c1]->getPossibleMoves(r1, c1, squares);
             for (const auto& move : validMoves) {
                 if (move.first == r2 && move.second == c2) {
-                    std::cout << move.first << move.second << " " << r2 << c2 <<std::endl;
+                    // std::cout << move.first << move.second << " " << r2 << c2 <<std::endl;
                     Piece* temp = squares[r1][c1];
                     squares[r1][c1] = nullptr;
                     squares[r2][c2] = temp;
