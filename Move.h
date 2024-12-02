@@ -24,11 +24,31 @@ class Move {
         }
 
     public:
-        Move(std::pair<int,int> startSq, std::pair<int,int> endSq, Piece* board[8][8]);
+        Move(std::pair<int,int> startSq, std::pair<int,int> endSq, Piece* board[8][8]) {
+            startRow = startSq.first;
+            startCol = startSq.second;
+            endRow = endSq.first;
+            endCol = endSq.second;
+            pieceMoved = board[startRow][startCol];
+            pieceCaptured = board[endRow][endCol];
+            
+            isPawnPromotion = false;
+            if ((pieceMoved->getName() == "wp" && endRow == 0) || 
+                (pieceMoved->getName() == "bp" && endRow == 7)) {
+                isPawnPromotion = true;
+            }
+            
+            moveID = startRow * 1000 + startCol * 100 + endRow * 10 + endCol;
+        }
 
-        bool operator == (const Move& other) const;
+        bool operator == (const Move& other) const {
+            return moveID == other.moveID;
+        }
 
-        std::ostream& operator << (std::ostream& os) const;
+        friend std::ostream& operator<<(std::ostream& os, const Move& move) {
+            os << move.getRankFile(move.startRow, move.startCol) + move.getRankFile(move.endRow, move.endCol);
+            return os;
+        }
 };
 
 // Static member initialization

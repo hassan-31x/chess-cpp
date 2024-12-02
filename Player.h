@@ -3,7 +3,9 @@ class Player {
         bool isWhite;
 
     public:
-        Player(bool isWhite);
+        Player(bool isWhite): isWhite(isWhite) {}
         
-        bool getIsWhite() const;
+        bool getIsWhite() const { 
+            return isWhite; 
+        }
 };
