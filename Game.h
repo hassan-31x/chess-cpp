@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "Player.h"
 #include "Move.h"
+#include <SFML/Audio.hpp>
 
 class Game {
 private:
@@ -21,6 +22,7 @@ private:
     sf::Sprite backgroundSprite;  
     std::vector<Move> moveLog;
     std::vector<std::pair<int, int>> validMoves;
+    sf::Music music;
 
 public:
     Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), firstMoveMade(false), moveLog(), validMoves() {
@@ -52,6 +54,13 @@ private:
             if (gameStarted && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                     int col = event.mouseButton.x / Board::SQUARE_SIZE;
                     int row = event.mouseButton.y / Board::SQUARE_SIZE;
+
+
+                    //loading music file
+                    if (!music.openFromFile("audios\\capture.wav")) {
+                        cout << "Error loading music file" << endl;
+                    }
+                    music.play();
 
                     cout << "Clicked square: (" << row << ", " << col << ")" << endl;
                     if (row == sqClicked.first && col == sqClicked.second) {
