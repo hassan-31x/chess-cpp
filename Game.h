@@ -151,15 +151,15 @@ class Game {
                 window.draw(endScreenSprite);
 
                 if (winner.getIsWhite()) {
-                    player1Text.setPosition(200, 200);
+                    player1Text.setPosition(200, 400);
 
                     player2Text.setString("Player 2");
-                    player2Text.setPosition(400, 200);
+                    player2Text.setPosition(500, 400);
                 } else {
                     player1Text.setString("Player 1");
-                    player1Text.setPosition(200, 200);
+                    player1Text.setPosition(200, 400);
 
-                    player2Text.setPosition(400, 200);
+                    player2Text.setPosition(500, 400);
                 }
 
 
