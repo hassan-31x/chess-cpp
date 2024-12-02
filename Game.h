@@ -111,6 +111,7 @@ class Game {
 
                             Move move(sqClicked, std::make_pair(row, col), board.getSquares());
                             moveLog.push_back(move);
+                            std::cout << move << std::endl;
 
                             totalMoves++;
 
