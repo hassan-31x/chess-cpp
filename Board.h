@@ -135,16 +135,21 @@ class Board {
 
         
 
-        bool movePiece(int r1, int c1, int r2, int c2, std::vector<std::pair<int, int>> validMoves) {
+        int movePiece(int r1, int c1, int r2, int c2, std::vector<std::pair<int, int>> validMoves) {
             for (const auto& move : validMoves) {
                 if (move.first == r2 && move.second == c2) {
                     Piece* temp = squares[r1][c1];
                     squares[r1][c1] = nullptr;
                     squares[r2][c2] = temp;
-                    return true;
+
+                    if (temp->getName() == "wK" || temp->getName() == "bK") {
+                        return -1;
+                    }
+
+                    return 1;
                 }
             }
-            return false;
+            return 0;
         }
 
         Piece* getPiece(int r, int c) {
