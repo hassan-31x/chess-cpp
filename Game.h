@@ -95,6 +95,11 @@ private:
                         if (board.getPiece(row, col) == nullptr) {
                             continue;
                         }
+
+                        if (isWhiteTurn != board.getPiece(row, col)->getIsWhite()) {
+                            continue;
+                        }
+
                         cout << "First click" << endl;
                         firstMoveMade = true;
                         sqClicked = std::make_pair(row, col);
