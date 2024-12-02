@@ -15,8 +15,6 @@ class Move {
         int endCol;
         Piece* pieceMoved;
         Piece* pieceCaptured;
-        bool isPawnPromotion;
-        int moveID;
 
         std::string getRankFile(int r, int c) const {
             return colsToFiles.at(c) + rowsToRanks.at(r);
@@ -30,19 +28,8 @@ class Move {
             endCol = endSq.second;
             pieceMoved = board[startRow][startCol];
             pieceCaptured = board[endRow][endCol];
-            
-            isPawnPromotion = false;
-            if ((pieceMoved->getName() == "wp" && endRow == 0) || 
-                (pieceMoved->getName() == "bp" && endRow == 7)) {
-                isPawnPromotion = true;
-            }
-            
-            moveID = startRow * 1000 + startCol * 100 + endRow * 10 + endCol;
         }
 
-        bool operator == (const Move& other) const {
-            return moveID == other.moveID;
-        }
 
         friend std::ostream& operator<<(std::ostream& os, const Move& move) {
             os << move.getRankFile(move.startRow, move.startCol) + move.getRankFile(move.endRow, move.endCol);

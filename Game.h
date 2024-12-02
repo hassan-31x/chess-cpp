@@ -75,8 +75,6 @@ private:
 
                     //if one click is already done
                     if (firstMoveMade) {
-                        cout << "Second click" << endl;
-
                         bool moveValid = board.movePiece(sqClicked.first, sqClicked.second, row, col, validMoves);
 
                         if (!moveValid) {
@@ -89,7 +87,6 @@ private:
                         
 
                         Move move(sqClicked, std::make_pair(row, col), board.getSquares());
-                        cout << "Move: " << move << endl;
                         moveLog.push_back(move);
 
                         totalMoves++;
@@ -109,7 +106,6 @@ private:
                             continue;
                         }
 
-                        cout << "First click" << endl;
                         firstMoveMade = true;
                         sqClicked = std::make_pair(row, col);
 
