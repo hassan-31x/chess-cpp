@@ -15,7 +15,6 @@ private:
 
     sf::RenderWindow window;
     sf::Font font;
-    sf::Text startButton;
     
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;  
@@ -44,9 +43,16 @@ private:
             }
 
             if (!gameStarted && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-                if (startButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+
+                if (event.mouseButton.x > 175 && event.mouseButton.x < 375 && event.mouseButton.y > 320 && event.mouseButton.y < 415) {
                     gameStarted = true;
                 }
+
+                if (event.mouseButton.x > 420 && event.mouseButton.x < 620 && event.mouseButton.y > 320 && event.mouseButton.y < 415) {
+                    window.close();
+                }
+
+                cout << event.mouseButton.x << " " << event.mouseButton.y << endl;
             }
 
             if (gameStarted && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -82,7 +88,7 @@ private:
                         isWhiteTurn = !isWhiteTurn;
                         sqClicked = std::make_pair(-1, -1);
                         firstMoveMade = false;
-                        
+
                         validMoves.clear();
                         board.highlightSquares(validMoves, -1, -1);
                     } else {
@@ -106,7 +112,6 @@ private:
 
         if (!gameStarted) {
             window.draw(backgroundSprite);
-            window.draw(startButton);
         } 
         else {
             board.draw(window);
@@ -118,17 +123,12 @@ private:
     void initializeWindow() {
         window.create(sf::VideoMode(Board::BOARD_SIZE * Board::SQUARE_SIZE, Board::BOARD_SIZE * Board::SQUARE_SIZE), "Chess");
 
-        if (!backgroundTexture.loadFromFile("background.jpg")) {
+        if (!backgroundTexture.loadFromFile("startscreen.png")) {
         }
         backgroundSprite.setTexture(backgroundTexture);
 
         if (!font.loadFromFile("arial.ttf")) {
         }
 
-        startButton.setFont(font);
-        startButton.setString("Start");
-        startButton.setCharacterSize(24);
-        startButton.setFillColor(sf::Color::White);
-        startButton.setPosition((Board::BOARD_SIZE * Board::SQUARE_SIZE) / 2, (Board::BOARD_SIZE * Board::SQUARE_SIZE) / 2);
     }
 };
