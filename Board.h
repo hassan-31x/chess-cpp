@@ -138,11 +138,13 @@ class Board {
         int movePiece(int r1, int c1, int r2, int c2, std::vector<std::pair<int, int>> validMoves) {
             for (const auto& move : validMoves) {
                 if (move.first == r2 && move.second == c2) {
+
                     Piece* temp = squares[r1][c1];
+                    Piece* endPiece = squares[r2][c2];
                     squares[r1][c1] = nullptr;
                     squares[r2][c2] = temp;
 
-                    if (temp->getName() == "wK" || temp->getName() == "bK") {
+                    if (endPiece != nullptr && endPiece->getName().find('K') != std::string::npos) {
                         return -1;
                     }
 
