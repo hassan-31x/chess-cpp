@@ -4,7 +4,6 @@
 
 class Move {
     private:
-        // Maps for chess notation conversion
         static const std::map<std::string, int> ranksToRows;
         static const std::map<int, std::string> rowsToRanks;
         static const std::map<std::string, int> filesToCols;
@@ -51,7 +50,6 @@ class Move {
         }
 };
 
-// Static member initialization
 const std::map<std::string, int> Move::ranksToRows = {
     {"1", 7}, {"2", 6}, {"3", 5}, {"4", 4},
     {"5", 3}, {"6", 2}, {"7", 1}, {"8", 0}

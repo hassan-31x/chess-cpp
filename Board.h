@@ -136,10 +136,8 @@ class Board {
         
 
         bool movePiece(int r1, int c1, int r2, int c2, std::vector<std::pair<int, int>> validMoves) {
-            // std::vector<std::pair<int, int>> validMoves = squares[r1][c1]->getPossibleMoves(r1, c1, squares);
             for (const auto& move : validMoves) {
                 if (move.first == r2 && move.second == c2) {
-                    // std::cout << move.first << move.second << " " << r2 << c2 <<std::endl;
                     Piece* temp = squares[r1][c1];
                     squares[r1][c1] = nullptr;
                     squares[r2][c2] = temp;
@@ -154,33 +152,6 @@ class Board {
         }
 
         void highlightSquares(std::vector<std::pair<int, int>> moves, int r, int c) {
-            // sf::RenderWindow tempWindow(sf::VideoMode(BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE), "Chess");
-            // sf::RectangleShape square(sf::Vector2f(SQUARE_SIZE, SQUARE_SIZE));
-            // std::vector<sf::Color> colors = {sf::Color::White, sf::Color(192, 192, 192)};
-
-            // for (int row = 0; row < BOARD_SIZE; row++) {
-            //     for (int col = 0; col < BOARD_SIZE; ++col) {
-            //         square.setPosition(col * SQUARE_SIZE, row * SQUARE_SIZE);
-            //         if (row == r && col == c) {
-            //             square.setFillColor(sf::Color::Yellow);
-            //         } else {
-            //             bool isValidMove = false;
-            //             for (const auto& move : moves) {
-            //                 if (move.first == row && move.second == col) {
-            //                     isValidMove = true;
-            //                     break;
-            //                 }
-            //             }
-            //             if (isValidMove) {
-            //                 square.setFillColor(sf::Color::Green); // Highlight possible moves
-            //             } else {
-            //                 square.setFillColor(colors[(row + col) % 2]);
-            //             }
-            //         }
-            //         tempWindow.draw(square);
-            //     }
-            // }
-            // tempWindow.display();
             highlightedSquares = moves;
 
             highlightedRow = r;

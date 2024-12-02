@@ -171,8 +171,6 @@ class Pawn: public Piece {
             std::vector<std::pair<int, int>> moves;
             int direction = getIsWhite() ? -1 : 1;
 
-            std::cout << "moveS: " << r << c <<std::endl;
-            
             // Forward move
             if (board[r + direction][c] == nullptr) {
                 moves.push_back({r + direction, c});
@@ -192,11 +190,6 @@ class Pawn: public Piece {
             if (c + 1 < 8 && board[r + direction][c + 1] != nullptr && 
                 board[r + direction][c + 1]->getIsWhite() != getIsWhite()) {
                 moves.push_back({r + direction, c + 1});
-            }
-
-
-            for (const auto& move : moves) {
-                std::cout << "move: " << move.first << move.second << std::endl;
             }
             
             return moves;

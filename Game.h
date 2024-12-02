@@ -13,6 +13,7 @@ private:
     bool gameStarted;
     bool firstMoveMade;
     std::pair<int, int> sqClicked;
+    int totalMoves;
 
     sf::RenderWindow window;
     sf::Font font;
@@ -24,7 +25,7 @@ private:
     sf::Music music;
 
 public:
-    Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), firstMoveMade(false), moveLog(), validMoves() {
+    Game(): whitePlayer(true), blackPlayer(false), isWhiteTurn(true), gameStarted(false), firstMoveMade(false), moveLog(), validMoves(), totalMoves(0) {
         initializeWindow();
     }
 
@@ -53,8 +54,6 @@ private:
                 if (event.mouseButton.x > 420 && event.mouseButton.x < 620 && event.mouseButton.y > 320 && event.mouseButton.y < 415) {
                     window.close();
                 }
-
-                cout << event.mouseButton.x << " " << event.mouseButton.y << endl;
             }
 
             if (gameStarted && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -68,7 +67,6 @@ private:
                     }
                     music.play();
 
-                    cout << "Clicked square: (" << row << ", " << col << ")" << endl;
                     if (row == sqClicked.first && col == sqClicked.second) {
                         sqClicked = std::make_pair(-1, -1);
                         firstMoveMade = false;
@@ -90,9 +88,11 @@ private:
                         }
                         
 
-                        // Move move(sqClicked, std::make_pair(row, col), board.getSquares());
-                        // cout << "Move: " << move << endl;
-                        // moveLog.push_back(move);
+                        Move move(sqClicked, std::make_pair(row, col), board.getSquares());
+                        cout << "Move: " << move << endl;
+                        moveLog.push_back(move);
+
+                        totalMoves++;
 
                         isWhiteTurn = !isWhiteTurn;
                         sqClicked = std::make_pair(-1, -1);
@@ -138,10 +138,12 @@ private:
         window.create(sf::VideoMode(Board::BOARD_SIZE * Board::SQUARE_SIZE, Board::BOARD_SIZE * Board::SQUARE_SIZE), "Chess");
 
         if (!backgroundTexture.loadFromFile("startscreen.png")) {
+            cout << "Error loading background texture" << endl;
         }
         backgroundSprite.setTexture(backgroundTexture);
 
         if (!font.loadFromFile("arial.ttf")) {
+            cout << "Error loading font" << endl;
         }
 
     }
