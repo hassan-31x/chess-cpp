@@ -150,6 +150,19 @@ class Game {
             else if (gameEnded) {
                 window.draw(endScreenSprite);
 
+                if (winner.getIsWhite()) {
+                    player1Text.setPosition(200, 200);
+
+                    player2Text.setString("Player 2");
+                    player2Text.setPosition(400, 200);
+                } else {
+                    player1Text.setString("Player 1");
+                    player1Text.setPosition(200, 200);
+
+                    player2Text.setPosition(400, 200);
+                }
+
+
                 window.draw(player1Text);
                 window.draw(player2Text);
             }
@@ -179,14 +192,12 @@ class Game {
             player1Text.setFont(font);
             player1Text.setString("Player 1");
             player1Text.setCharacterSize(24);
-            player1Text.setFillColor(sf::Color::Black);
-            player1Text.setPosition(10, 10);
+            player1Text.setFillColor(sf::Color::White);
 
             player2Text.setFont(font);
             player2Text.setString("Player 2"); 
             player2Text.setCharacterSize(24);
-            player2Text.setFillColor(sf::Color::Black);
-            player2Text.setPosition(Board::BOARD_SIZE * Board::SQUARE_SIZE - 100, 10);
+            player2Text.setFillColor(sf::Color::White);
 
         }
 };
