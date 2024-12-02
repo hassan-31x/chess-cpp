@@ -29,6 +29,8 @@ class Game {
         sf::Sprite backgroundSprite;  
         sf::Texture endScreenTexture;
         sf::Sprite endScreenSprite;
+        sf::Text player1Text;
+        sf::Text player2Text;
 
         std::vector<Move> moveLog;
         std::vector<std::pair<int, int>> validMoves;
@@ -146,6 +148,9 @@ class Game {
             } 
             else if (gameEnded) {
                 window.draw(endScreenSprite);
+
+                window.draw(player1Text);
+                window.draw(player2Text);
             }
             else {
                 board.draw(window);
@@ -170,6 +175,17 @@ class Game {
             if (!font.loadFromFile("arial.ttf")) {
                 cout << "Error loading font" << endl;
             }
+            player1Text.setFont(font);
+            player1Text.setString("Player 1");
+            player1Text.setCharacterSize(24);
+            player1Text.setFillColor(sf::Color::Black);
+            player1Text.setPosition(10, 10);
+
+            player2Text.setFont(font);
+            player2Text.setString("Player 2"); 
+            player2Text.setCharacterSize(24);
+            player2Text.setFillColor(sf::Color::Black);
+            player2Text.setPosition(Board::BOARD_SIZE * Board::SQUARE_SIZE - 100, 10);
 
         }
 };
